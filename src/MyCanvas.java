@@ -10,7 +10,8 @@ public class MyCanvas
 {
     JLabel myView;
     BufferedImage mySurface;
-    Random random = new Random();
+
+    private boolean logging = true;
 
     public MyCanvas(int myWidth, int myHeight)
     {
@@ -18,28 +19,17 @@ public class MyCanvas
         myView = new JLabel(new ImageIcon(mySurface));
         Graphics g = mySurface.getGraphics();
         // background
-        g.setColor(Color.black);
+        g.setColor(Color.darkGray);
         g.fillRect(0,0,myWidth,myHeight);
 
         g.setColor(Color.BLACK);
-        // Keep this until I figured out if it's painted on load or not.
-        // g.drawLine(10, 20, 350, 380);
         g.dispose();
-
-        // ActionListener listener = new ActionListener() {
-        //     public void actionPerformed(ActionEvent ae) {
-        //        addNewElement();
-        //    }
-        // };
-
-        // Timer timer = new Timer(500, listener);
-        // timer.start();
     }
 
 
     public void doDFS(int startX, int startY, int lastDirection, boolean [] [] wholeField, Color myColor, int myR, int myG, int myB, int sqrSize) {
         try {
-            Thread.sleep(2);
+            Thread.sleep(8);
         } catch  (InterruptedException e) {
             System.out.println("DFS ... Thread.sleep ... FAIL");
         }
@@ -90,7 +80,9 @@ public class MyCanvas
                         myColor = new Color (myColor.getRed()-myR, myColor.getGreen(), myColor.getBlue());
                         doDFS(startX-1,startY,myRandomDirection, wholeField, myColor, myR, myG, myB, sqrSize);
                     } else {
-                        System.out.println("Field is Filled :  x = " + startX + "   y = " + startY);
+                        if (logging) {
+                            System.out.println("Field is Filled :  x = " + startX + "   y = " + startY);
+                        }
                     }
                 }
             } else if  (directions[myRandomDirection] == 1) {   // up
@@ -103,7 +95,9 @@ public class MyCanvas
                         myColor = new Color (myColor.getRed(), myColor.getGreen()-myG, myColor.getBlue());
                         doDFS(startX,startY-1,myRandomDirection, wholeField, myColor, myR, myG, myB, sqrSize);
                     } else {
-                        System.out.println("Field is Filled :  x = " + startX + "   y = " + startY);
+                        if (logging) {
+                            System.out.println("Field is Filled :  x = " + startX + "   y = " + startY);
+                        }
                     }
                 }
             } else if  (directions[myRandomDirection] == 2) {   // right
@@ -116,7 +110,9 @@ public class MyCanvas
                         myColor = new Color (myColor.getRed(), myColor.getGreen(), myColor.getBlue()-myB);
                         doDFS(startX+1,startY,myRandomDirection, wholeField, myColor, myR, myG, myB, sqrSize);
                     } else {
-                        System.out.println("Field is Filled :  x = " + startX + "   y = " + startY);
+                        if (logging) {
+                            System.out.println("Field is Filled :  x = " + startX + "   y = " + startY);
+                        }
                     }
                 }
             } else if  (directions[myRandomDirection] == 3) {   // down
@@ -126,7 +122,9 @@ public class MyCanvas
                         doDFS(startX,startY+1,myRandomDirection, wholeField, myColor, myR, myG, myB, sqrSize);
                     }
                 } else {
-                    System.out.println("Field is Filled :  x = " + startX + "   y = " + startY);
+                    if (logging) {
+                        System.out.println("Field is Filled :  x = " + startX + "   y = " + startY);
+                    }
                 }
             }
 
@@ -160,13 +158,27 @@ public class MyCanvas
         return array;
     }
 
+
+
+    public static void drawRect(int x, int y, Graphics g, Color myColor, int sqrSize)
+    {
+        // (x,y) = upper left corner
+        int xLoc = x;
+        int yLoc = y;
+        g.setColor(myColor);
+        g.fillRect(xLoc, yLoc, sqrSize, sqrSize);
+        g.drawRect(xLoc, yLoc, sqrSize, sqrSize);
+    }
+
+
+
     public static void main(String[] args)
     {
 
         // Dimension of window / canvas
-        int myWidth = 500;
-        int myHeight = 500;
-        int sqrSize = 10;
+        int myWidth = 600;
+        int myHeight = 600;
+        int sqrSize = 20;       // 10
         int numSquareX = (int) myWidth / sqrSize;
         int numSquareY = (int) myHeight / sqrSize;
 
@@ -190,23 +202,15 @@ public class MyCanvas
         int myStartY = (myHeight/sqrSize)/2;
         int myRandomDirection = (int)(Math.random()*100) % 4;
 
+        // Start Color
         Color myColor = new Color(255, 255, 255); // Color white
-        int myR = 10;
-        int myG = 10;
-        int myB = 10;
+        // Color Diff on every change of direction  --> less Colorfull with sinking numbers
+        int myR = 10;       // 10
+        int myG = 10;       // 10
+        int myB = 10;       // 10
 
         // DFS Paint
         canvas.doDFS(myStartX,myStartY,myRandomDirection, field, myColor, myR, myG, myB, sqrSize);
-    }
-
-    public static void drawRect(int x, int y, Graphics g, Color myColor, int sqrSize)
-    {
-        // (x,y) = upper left corner
-        int xLoc = x;
-        int yLoc = y;
-        g.setColor(myColor);
-        g.fillRect(xLoc, yLoc, sqrSize, sqrSize);
-        g.drawRect(xLoc, yLoc, sqrSize, sqrSize);
     }
 
 }
