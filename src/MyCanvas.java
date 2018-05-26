@@ -11,7 +11,63 @@ public class MyCanvas
     private JLabel myView;
     private BufferedImage mySurface;
 
-    private boolean logging = true;
+    // logging inso "Syste.out"
+    private boolean logging = false;
+    // Thread Sleep
+    private int sleepTimer = 10;
+
+
+
+
+    public static void main(String[] args)
+    {
+        // ========== Variables ==========
+
+        // Dimension of window / canvas
+        int Width = 600;
+        int Height = 600;
+        int sqrSize = 20;       // 10
+        int numSquareX = (Width / sqrSize);
+        int numSquareY = (Height / sqrSize);
+
+        // Start Color
+        Color myColor = new Color(255, 255, 255); // Color white
+
+        // Color Diff on every change of direction  --> less Colorfull with sinking numbers
+        int myR = 10;       // 10
+        int myG = 10;       // 10
+        int myB = 10;       // 10
+
+
+
+        // ========== Canvas ==========
+        MyCanvas canvas = new MyCanvas(Width, Height);
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(canvas.myView);
+        frame.pack();
+        frame.setLocationByPlatform(true);
+        frame.setVisible(true);
+
+        // ========== Field ==========
+        boolean [] [] field  = new boolean [numSquareX] [numSquareY];
+        for (boolean [] f : field) {
+            for (boolean b: f) {
+                b = false;
+            }
+        }
+        int myStartX = (Width/sqrSize)/2;
+        int myStartY = (Height/sqrSize)/2;
+        int myRandomDirection = (int)(Math.random()*100) % 4;
+
+
+        // ========== Behaviour ==========
+        // DFS Paint
+        canvas.doDFS(myStartX,myStartY,myRandomDirection, field, myColor, myR, myG, myB, sqrSize);
+    }
+
+
+
 
     private MyCanvas(int myWidth, int myHeight)
     {
@@ -29,7 +85,7 @@ public class MyCanvas
 
     private void doDFS(int startX, int startY, int lastDirection, boolean [] [] wholeField, Color myColor, int myR, int myG, int myB, int sqrSize) {
         try {
-            Thread.sleep(8);
+            Thread.sleep(sleepTimer);
         } catch  (InterruptedException e) {
             System.out.println("DFS ... Thread.sleep ... FAIL");
         }
@@ -143,6 +199,7 @@ public class MyCanvas
         }
     }
 
+
     private int [] shuffleArray(int[] array) {
         ArrayList<Integer> solution = new ArrayList<>();
 
@@ -159,56 +216,12 @@ public class MyCanvas
     }
 
 
-
     private static void drawRect(int x, int y, Graphics g, Color myColor, int sqrSize)
     {
         // (x,y) = upper left corner
         g.setColor(myColor);
         g.fillRect(x, y, sqrSize, sqrSize);
         g.drawRect(x, y, sqrSize, sqrSize);
-    }
-
-
-
-    public static void main(String[] args)
-    {
-
-        // Dimension of window / canvas
-        int myWidth = 600;
-        int myHeight = 600;
-        int sqrSize = 20;       // 10
-        int numSquareX = (myWidth / sqrSize);
-        int numSquareY = (myHeight / sqrSize);
-
-        MyCanvas canvas = new MyCanvas(myWidth, myHeight);
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(canvas.myView);
-        frame.pack();
-        frame.setLocationByPlatform(true);
-        frame.setVisible(true);
-
-
-        // boolean [] [] field  = new boolean [(int)(myWidth*0.1)] [(int)(myHeight*0.1)];
-        boolean [] [] field  = new boolean [numSquareX] [numSquareY];
-        for (boolean [] f : field) {
-            for (boolean b: f) {
-                b = false;
-            }
-        }
-        int myStartX = (myWidth/sqrSize)/2;
-        int myStartY = (myHeight/sqrSize)/2;
-        int myRandomDirection = (int)(Math.random()*100) % 4;
-
-        // Start Color
-        Color myColor = new Color(255, 255, 255); // Color white
-        // Color Diff on every change of direction  --> less Colorfull with sinking numbers
-        int myR = 10;       // 10
-        int myG = 10;       // 10
-        int myB = 10;       // 10
-
-        // DFS Paint
-        canvas.doDFS(myStartX,myStartY,myRandomDirection, field, myColor, myR, myG, myB, sqrSize);
     }
 
 }
