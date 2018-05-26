@@ -8,12 +8,12 @@ import java.util.Random;
 
 public class MyCanvas
 {
-    JLabel myView;
-    BufferedImage mySurface;
+    private JLabel myView;
+    private BufferedImage mySurface;
 
     private boolean logging = true;
 
-    public MyCanvas(int myWidth, int myHeight)
+    private MyCanvas(int myWidth, int myHeight)
     {
         mySurface = new BufferedImage(myWidth,myHeight,BufferedImage.TYPE_INT_RGB);
         myView = new JLabel(new ImageIcon(mySurface));
@@ -27,7 +27,7 @@ public class MyCanvas
     }
 
 
-    public void doDFS(int startX, int startY, int lastDirection, boolean [] [] wholeField, Color myColor, int myR, int myG, int myB, int sqrSize) {
+    private void doDFS(int startX, int startY, int lastDirection, boolean [] [] wholeField, Color myColor, int myR, int myG, int myB, int sqrSize) {
         try {
             Thread.sleep(8);
         } catch  (InterruptedException e) {
@@ -143,7 +143,7 @@ public class MyCanvas
         }
     }
 
-    public int [] shuffleArray(int[] array) {
+    private int [] shuffleArray(int[] array) {
         ArrayList<Integer> solution = new ArrayList<>();
 
         for (int i = 0; i < array.length; i++) {
@@ -160,7 +160,7 @@ public class MyCanvas
 
 
 
-    public static void drawRect(int x, int y, Graphics g, Color myColor, int sqrSize)
+    private static void drawRect(int x, int y, Graphics g, Color myColor, int sqrSize)
     {
         // (x,y) = upper left corner
         int xLoc = x;
