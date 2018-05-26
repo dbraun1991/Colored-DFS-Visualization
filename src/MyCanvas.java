@@ -163,11 +163,9 @@ public class MyCanvas
     private static void drawRect(int x, int y, Graphics g, Color myColor, int sqrSize)
     {
         // (x,y) = upper left corner
-        int xLoc = x;
-        int yLoc = y;
         g.setColor(myColor);
-        g.fillRect(xLoc, yLoc, sqrSize, sqrSize);
-        g.drawRect(xLoc, yLoc, sqrSize, sqrSize);
+        g.fillRect(x, y, sqrSize, sqrSize);
+        g.drawRect(x, y, sqrSize, sqrSize);
     }
 
 
@@ -179,8 +177,8 @@ public class MyCanvas
         int myWidth = 600;
         int myHeight = 600;
         int sqrSize = 20;       // 10
-        int numSquareX = (int) myWidth / sqrSize;
-        int numSquareY = (int) myHeight / sqrSize;
+        int numSquareX = (myWidth / sqrSize);
+        int numSquareY = (myHeight / sqrSize);
 
         MyCanvas canvas = new MyCanvas(myWidth, myHeight);
         JFrame frame = new JFrame();
